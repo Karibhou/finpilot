@@ -4,14 +4,10 @@ permissions:
 
 on:
   pull_request:
-    paths:
-      - "custom/flatpaks/**"
-      - "build/validate-flatpaks.sh"
-      - "tests/contract/validate-flatpaks_test.bats"
-      - "tests/fixtures/flathub.flatpakrepo"
-      - ".github/workflows/validate-flatpaks.yml"
+  merge_group:
 jobs:
   validate:
+    name: Validate Flatpaks
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -28,8 +24,7 @@ jobs:
           sudo apt-get install -y flatpak
 
       # Single implementation of the validation contract, shared with
-      # `just validate-flatpaks`. The paths above include the script and its
-      # test so a change to the contract runs the check that enforces it.
+      # `just validate-flatpaks`.
       - name: Validate Flatpaks
         shell: bash
         run: build/validate-flatpaks.sh

@@ -71,5 +71,5 @@ just check
 just build
 ```
 
-CI runs `validate-brewfiles`, `validate-flatpaks`, and `validate-justfiles` on
-every pull request.
+CI runs `Validate Brewfiles`, `Validate Flatpaks`, and `Validate Justfiles` on
+every pull request and in the merge queue.

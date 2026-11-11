@@ -14,15 +14,18 @@ description: >-
 | `build-image.yml` | push to `main` or `stable`, dispatch | Builds, signs, and pushes the image. |
 | `execute-release.yml` | push to `stable` | Promotes the candidate digest. Does not rebuild. |
 | `promote-main-to-stable.yml` | daily schedule, dispatch | Opens the squash promotion PR and runs the release gate on it. |
-| `pr-validation.yml` | pull request | The `validate` check: shellcheck and hadolint. |
+| `pr-validation.yml` | pull request, merge queue | The `validate` check: shellcheck and hadolint. |
 | `pr-build.yml` | pull request, merge queue | The `PR image build` check: builds the image (no push, no signing) and runs the same package scan as main, failing on a broken scan, when the Containerfile, Justfile, `.dockerignore`, `build/`, `custom/`, `build-image.yml` or the workflow itself changes; passes in seconds otherwise. |
-| `validate-brewfiles.yml` | pull request | Brewfiles, without evaluating them. |
-| `validate-flatpaks.yml` | pull request | Flatpak preinstall files against Flathub. |
-| `validate-justfiles.yml` | pull request | `just check`. |
-| `validate-renovate.yml` | pull request | Renovate config. |
-| `unit-tests.yml` | push, pull request | The bats suite. |
+| `validate-brewfiles.yml` | pull request, merge queue | `Validate Brewfiles`: checks Brewfiles without evaluating them. |
+| `validate-flatpaks.yml` | pull request, merge queue | `Validate Flatpaks`: checks preinstall files against Flathub. |
+| `validate-justfiles.yml` | pull request, merge queue | `Validate Justfiles`: runs `just check`. |
+| `validate-renovate.yml` | pull request, merge queue; filtered push | `Validate Renovate config`: checks Renovate config. |
+| `unit-tests.yml` | pull request, merge queue; filtered push | `BATS unit tests`: runs the bats suite. |
 | `renovate.yml` | schedule, config change | Runs Renovate. |
 | `clean.yml` | schedule | Deletes images older than 90 days. |
+
+The five fast checks run for documentation-only pull requests as well. Keep
+their pull request triggers free of path filters so they can be required.
 
 Most are thin callers of reusable workflows in `projectbluefin/actions`.
 
